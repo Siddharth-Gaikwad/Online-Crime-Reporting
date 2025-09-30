@@ -1,0 +1,67 @@
+<div class="d-flex flex-column align-items-center mt-5">
+  <!-- Sidebar -->
+  <div>
+    <%= render "pages/allnav" %>
+  </div>
+
+  <!-- Form Section -->
+  <h1 class="content-container text-center mb-4">Update Case Report</h1>
+
+  <div class="card p-4 shadow-sm" style="width: 100%;margin-left: 800px;">
+    <%= form_with(model: @case_report, local: true) do |form| %>
+      <% if police_signed_in? %>
+        <!-- Police can only edit the status -->
+        <div class="form-group">
+          <%= form.label :status %>
+          <%= form.select :status, [['pending', 'Pending'], ['solved', 'Solved']], {}, class: 'form-control' %>
+        </div>
+        <!-- Non-editable fields -->
+        <div class="form-group">
+          <%= form.label :title %>
+          <%= form.text_field :title, class: 'form-control', disabled: true %>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :description %>
+          <%= form.text_area :description, class: 'form-control', disabled: true %>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :branch_id, 'Branch' %>
+          <%= form.collection_select :branch_id, @branches, :id, :name, { selected: @case_report.branch_id }, class: 'form-control', disabled: true %>
+        </div>
+
+      <% else %>
+        <!-- Users can edit other fields -->
+        <div class="form-group">
+          <%= form.label :title %>
+          <%= form.text_field :title, class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :description %>
+          <%= form.text_area :description, class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :branch_id, 'Branch' %>
+          <%= form.collection_select :branch_id, @branches, :id, :name, { selected: @case_report.branch_id }, class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :Your_Date_And_Time, class: "form-label" %>
+          <%= form.datetime_field :Timestmp, class: "form-control" %>
+        </div>
+      <% end %>
+
+      <div class="actions text-center mt-3">
+        <%= form.submit "Submit", class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+
+  <div style="margin-left: 800px;margin-top: 100px;">
+    <%= link_to "Show this case report", @case_report, class: "btn btn-secondary mx-2" %>
+    <%= link_to "Back to case reports", case_reports_path, class: "btn btn-secondary mx-2" %>
+  </div>
+</div>

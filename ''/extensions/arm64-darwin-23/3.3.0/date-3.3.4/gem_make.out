@@ -1,0 +1,24 @@
+current directory: /Users/saigaikwad/Desktop/online_crime_reporting_3/online_crime_reporting 3/''/gems/date-3.3.4/ext/date
+/Users/saigaikwad/.rbenv/versions/3.3.4/bin/ruby extconf.rb
+checking for rb_category_warn()... yes
+checking for timezone in time.h with  -Werror... yes
+checking for altzone in time.h with  -Werror... no
+creating Makefile
+
+current directory: /Users/saigaikwad/Desktop/online_crime_reporting_3/online_crime_reporting 3/''/gems/date-3.3.4/ext/date
+make DESTDIR\= sitearchdir\=./.gem.20250928-2475-vc0708 sitelibdir\=./.gem.20250928-2475-vc0708 clean
+
+current directory: /Users/saigaikwad/Desktop/online_crime_reporting_3/online_crime_reporting 3/''/gems/date-3.3.4/ext/date
+make DESTDIR\= sitearchdir\=./.gem.20250928-2475-vc0708 sitelibdir\=./.gem.20250928-2475-vc0708
+compiling date_core.c
+compiling date_parse.c
+compiling date_strftime.c
+compiling date_strptime.c
+linking shared-object date_core.bundle
+
+current directory: /Users/saigaikwad/Desktop/online_crime_reporting_3/online_crime_reporting 3/''/gems/date-3.3.4/ext/date
+make DESTDIR\= sitearchdir\=./.gem.20250928-2475-vc0708 sitelibdir\=./.gem.20250928-2475-vc0708 install
+/usr/bin/install -c -m 0755 date_core.bundle ./.gem.20250928-2475-vc0708
+
+current directory: /Users/saigaikwad/Desktop/online_crime_reporting_3/online_crime_reporting 3/''/gems/date-3.3.4/ext/date
+make DESTDIR\= sitearchdir\=./.gem.20250928-2475-vc0708 sitelibdir\=./.gem.20250928-2475-vc0708 clean

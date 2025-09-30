@@ -1,0 +1,178 @@
+<%# Add Branch Page with Leaflet Map Modal %>
+
+<% if admin_signed_in? %>
+  <div class="mt-4">
+    <div class="card shadow-lg border-0 rounded-lg">
+      <div class="card-header text-center bg-primary text-white">
+        <h5>Add new branch</h5>
+      </div>
+      <div class="card-body">
+        <%= form_with(model: branch, local: true) do |form| %>
+          <% if branch.errors.any? %>
+            <div class="alert alert-danger">
+              <h2><%= pluralize(branch.errors.count, "error") %> prohibited this branch from being saved:</h2>
+              <ul>
+                <% branch.errors.full_messages.each do |error| %>
+                  <li><%= error %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <div class="mb-3">
+            <%= form.label :name, class: "form-label" %>
+            <%= form.text_field :name, class: "form-control form-control-lg" %>
+          </div>
+
+          <div class="mb-3">
+            <%= form.label :address, class: "form-label" %>
+            <%= form.text_area :address, class: "form-control form-control-lg", rows: 4, id: "branch_address" %>
+          </div>
+
+          <div class="mb-3">
+            <%= form.label :location, "Branch Location (Lat,Lng)", class: "form-label" %>
+            <%= form.text_field :location, class: "form-control", id: "branch_location", readonly: true %>
+            <button type="button" class="btn btn-outline-primary mt-2" id="openMapBtn">Select on Map</button>
+          </div>
+
+          <div class="mb-3">
+            <%= form.label :city, class: "form-label" %>
+            <%= form.text_field :city, class: "form-control form-control-lg" %>
+          </div>
+
+          <div class="mb-3">
+            <%= form.label :state, class: "form-label" %>
+            <%= form.text_field :state, class: "form-control form-control-lg" %>
+          </div>
+
+          <div class="mb-3">
+            <%= form.label :pincode, class: "form-label" %>
+            <%= form.number_field :pincode, class: "form-control form-control-lg" %>
+          </div>
+
+          <div class="d-flex justify-content-center mt-4">
+            <%= form.submit "Create Branch", class: "btn btn-success btn-lg w-50" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Map Modal -->
+  <div id="mapModal" class="map-modal">
+    <div class="map-modal-content">
+      <div class="search-bar-container">
+        <input id="pac-input" class="form-control" type="text" placeholder="Search and press Enter...">
+      </div>
+      <div id="map" class="map-container"></div>
+      <div class="map-modal-actions">
+        <button id="confirmLocationBtn" class="btn btn-success">Confirm Location</button>
+        <button id="cancelMapBtn" class="btn btn-secondary">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+<% else %>
+  <div class="container mt-4 text-center">
+    <%= link_to 'Sign In', new_admin_session_path, class: "btn btn-link text-decoration-none" %>
+  </div>
+<% end %>
+
+<%# Leaflet CSS & JS %>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const mapModal = document.getElementById('mapModal');
+  const openMapBtn = document.getElementById('openMapBtn');
+  const confirmLocationBtn = document.getElementById('confirmLocationBtn');
+  const cancelMapBtn = document.getElementById('cancelMapBtn');
+  const branchLocationInput = document.getElementById('branch_location');
+  const branchAddressInput = document.getElementById('branch_address');
+  const searchInput = document.getElementById('pac-input');
+  const mapContainer = document.getElementById('map');
+
+  let map;
+  let marker;
+  const maptilerApiKey = '<%= Rails.application.credentials.maptiler_api_key %>';
+  const geoapifyApiKey = '<%= Rails.application.credentials.geoapify_api_key %>';
+
+  const toggleMapModal = (show) => {
+    mapModal.style.display = show ? 'block' : 'none';
+    if (show) {
+      setTimeout(() => {
+        if (!map) initMap();
+        else {
+          map.invalidateSize();
+          if (marker) map.setView(marker.getLatLng(), 15);
+          else map.setView([20.5937, 78.9629], 5);
+        }
+      }, 300);
+    }
+  };
+
+  openMapBtn.addEventListener('click', () => toggleMapModal(true));
+  cancelMapBtn.addEventListener('click', () => toggleMapModal(false));
+  confirmLocationBtn.addEventListener('click', () => toggleMapModal(false));
+
+  function initMap() {
+    map = L.map(mapContainer).setView([20.5937, 78.9629], 5);
+
+    L.tileLayer(`https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=${maptilerApiKey}`, {
+      attribution: '&copy; <a href="https://www.maptiler.com/">MapTiler</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    map.on('click', (e) => {
+      placeMarker(e.latlng);
+      getAddressForCoords(e.latlng);
+    });
+  }
+
+  function placeMarker(latlng) {
+    if (marker) marker.setLatLng(latlng);
+    else marker = L.marker(latlng).addTo(map);
+    map.setView(latlng, 15);
+    branchLocationInput.value = `${latlng.lat.toFixed(6)}, ${latlng.lng.toFixed(6)}`;
+  }
+
+  async function getAddressForCoords(latlng) {
+    try {
+      const res = await fetch(`https://api.geoapify.com/v1/geocode/reverse?lat=${latlng.lat}&lon=${latlng.lng}&apiKey=${geoapifyApiKey}`);
+      const data = await res.json();
+      if (data.features && data.features.length > 0) {
+        branchAddressInput.value = data.features[0].properties.formatted;
+      }
+    } catch (err) { console.error(err); }
+  }
+
+  searchInput.addEventListener('keydown', async (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const query = searchInput.value;
+      if (query.length < 3) return;
+
+      try {
+        const res = await fetch(`https://api.geoapify.com/v1/geocode/search?text=${encodeURIComponent(query)}&apiKey=${geoapifyApiKey}`);
+        const data = await res.json();
+        if (data.features && data.features.length > 0) {
+          const loc = data.features[0].properties;
+          placeMarker({ lat: loc.lat, lng: loc.lon });
+          branchAddressInput.value = loc.formatted;
+        } else alert('Location not found.');
+      } catch (err) { console.error(err); }
+    }
+  });
+});
+</script>
+
+<style>
+.map-modal { display: none; position: fixed; z-index: 1000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); }
+.map-modal-content { position: relative; width: 80%; height: 80%; margin: 5% auto; background: white; border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; }
+.search-bar-container { padding: 10px; background-color: #f1f1f1; }
+.map-container { width: 100%; flex-grow: 1; }
+.map-modal-actions { text-align: right; padding: 10px; background-color: #f1f1f1; }
+@media (max-width: 768px) {
+  .map-modal-content { width: 95%; height: 70%; margin: 15% auto; }
+}
+</style>

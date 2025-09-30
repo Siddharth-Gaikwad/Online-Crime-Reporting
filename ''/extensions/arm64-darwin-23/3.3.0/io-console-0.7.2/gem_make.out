@@ -1,0 +1,27 @@
+current directory: /Users/saigaikwad/Desktop/online_crime_reporting_3/online_crime_reporting 3/''/gems/io-console-0.7.2/ext/io/console
+/Users/saigaikwad/.rbenv/versions/3.3.4/bin/ruby extconf.rb
+checking for rb_io_path()... yes
+checking for rb_io_descriptor()... yes
+checking for rb_io_get_write_io()... yes
+checking for rb_io_closed_p()... yes
+checking for rb_io_open_descriptor()... yes
+checking for termios.h... yes
+checking for cfmakeraw() in termios.h... yes
+checking for sys/ioctl.h... yes
+checking for HAVE_RUBY_FIBER_SCHEDULER_H... yes
+creating Makefile
+
+current directory: /Users/saigaikwad/Desktop/online_crime_reporting_3/online_crime_reporting 3/''/gems/io-console-0.7.2/ext/io/console
+make DESTDIR\= sitearchdir\=./.gem.20250928-2475-ak6vmj sitelibdir\=./.gem.20250928-2475-ak6vmj clean
+
+current directory: /Users/saigaikwad/Desktop/online_crime_reporting_3/online_crime_reporting 3/''/gems/io-console-0.7.2/ext/io/console
+make DESTDIR\= sitearchdir\=./.gem.20250928-2475-ak6vmj sitelibdir\=./.gem.20250928-2475-ak6vmj
+compiling console.c
+linking shared-object io/console.bundle
+
+current directory: /Users/saigaikwad/Desktop/online_crime_reporting_3/online_crime_reporting 3/''/gems/io-console-0.7.2/ext/io/console
+make DESTDIR\= sitearchdir\=./.gem.20250928-2475-ak6vmj sitelibdir\=./.gem.20250928-2475-ak6vmj install
+/usr/bin/install -c -m 0755 console.bundle ./.gem.20250928-2475-ak6vmj/io
+
+current directory: /Users/saigaikwad/Desktop/online_crime_reporting_3/online_crime_reporting 3/''/gems/io-console-0.7.2/ext/io/console
+make DESTDIR\= sitearchdir\=./.gem.20250928-2475-ak6vmj sitelibdir\=./.gem.20250928-2475-ak6vmj clean

@@ -1,0 +1,18 @@
+current directory: /Users/saigaikwad/Desktop/online_crime_reporting_3/online_crime_reporting 3/''/gems/bindex-0.8.1/ext/skiptrace
+/Users/saigaikwad/.rbenv/versions/3.3.4/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /Users/saigaikwad/Desktop/online_crime_reporting_3/online_crime_reporting 3/''/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= sitearchdir\=./.gem.20250928-2475-okam9q sitelibdir\=./.gem.20250928-2475-okam9q clean
+
+current directory: /Users/saigaikwad/Desktop/online_crime_reporting_3/online_crime_reporting 3/''/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= sitearchdir\=./.gem.20250928-2475-okam9q sitelibdir\=./.gem.20250928-2475-okam9q
+compiling cruby.c
+linking shared-object skiptrace/internal/cruby.bundle
+
+current directory: /Users/saigaikwad/Desktop/online_crime_reporting_3/online_crime_reporting 3/''/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= sitearchdir\=./.gem.20250928-2475-okam9q sitelibdir\=./.gem.20250928-2475-okam9q install
+/usr/bin/install -c -m 0755 cruby.bundle ./.gem.20250928-2475-okam9q/skiptrace/internal
+
+current directory: /Users/saigaikwad/Desktop/online_crime_reporting_3/online_crime_reporting 3/''/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= sitearchdir\=./.gem.20250928-2475-okam9q sitelibdir\=./.gem.20250928-2475-okam9q clean

@@ -1,0 +1,63 @@
+<div>
+
+    <%= render "pages/allnav"%>
+</div>
+    
+    
+</div>
+
+<div >
+  <div class="text-center bg-light p-4 rounded shadow" style="max-width: 800px;">
+    <div>
+      <h5><strong>Case Report Details</strong></h5>
+
+      <p class="card-text">
+        <strong>Title:</strong> <%= case_report.title %>
+      </p>
+
+      <p class="card-text">
+        <strong>Description:</strong> <%= case_report.description %>
+      </p>
+
+      <p class="card-text">
+        <strong>Location:</strong> <%= case_report.location %>
+      </p>
+
+      <p class="card-text">
+        <strong>Branch:</strong> <%= case_report.branch.name %> <!-- Display branch name -->
+      </p>
+
+      <p class="card-text">
+        <strong>Status:</strong> <%= case_report.status %>
+      </p>
+
+      <p class="card-text">
+        <strong>Phone No:</strong> <%= case_report.phone_no %>
+      </p>
+
+      <p class="card-text">
+        <strong>Date and Time:</strong> 
+        <%= case_report.Timestmp.present? ? case_report.Timestmp.strftime("%B %d, %Y %I:%M %p") : "Not available" %>
+      </p>
+
+      <% if @case_report.evidence_image.attached? %>
+        <div class="my-3">
+          <%= image_tag @case_report.evidence_image, style: "width: 300px; height: 200px; object-fit: cover;" %>
+        </div>
+      <% end %>
+
+      <div class="text-center mt-4">
+        <% if police_signed_in? %>
+          <!-- Only show Edit button for police -->
+          <%= link_to "Edit Case", edit_case_report_path(case_report), class: "btn btn-primary me-2" %>
+        <% end %>
+        
+        <% if police_signed_in? %>
+          <%= link_to "Back to Reports", pages_police_path, class: "btn btn-secondary" %>
+        <% elsif user_signed_in? %>
+          <%= link_to "Back to Reports", case_reports_path, class: "btn btn-secondary" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

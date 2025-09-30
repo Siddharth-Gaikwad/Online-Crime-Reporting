@@ -1,0 +1,177 @@
+<div class="custom-card-body">
+  <% if user_signed_in? %>
+    <% if f.object.errors.any? %>
+      <div class="alert alert-danger custom-alert">
+        <h4><%= pluralize(f.object.errors.count, "error") %> prohibited this case report from being saved:</h4>
+        <ul>
+          <% f.object.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= f.label :title %>
+      <%= f.text_field :title, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :description %>
+      <%= f.text_area :description, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :phone %>
+      <%= f.telephone_field :phone_no, class: "form-control", id: "report-phone", maxlength: 10, pattern: "\\d{10}", title: "Phone number must be 10 digits", oninput: "this.value = this.value.replace(/[^0-9]/g, '')" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :location %>
+      <%= f.text_field :location, id: "location_input", class: "form-control" %>
+      <button type="button" id="choose_location_btn" class="btn btn-primary mt-2">Choose Location</button>
+    </div>
+
+    <%= f.hidden_field :latitude, id: "latitude_input" %>
+    <%= f.hidden_field :longitude, id: "longitude_input" %>
+    <%= f.hidden_field :branch_id, id: "branch_id_input" %> <!-- Auto-filled branch -->
+  <% else %>
+    <p>Please sign in to submit a report.</p>
+    <%= link_to 'Sign in', new_user_session_path, class: "btn btn-link" %>
+  <% end %>
+</div>
+
+<!-- Map Modal -->
+<div id="mapModal" style="display:none; position:fixed; z-index:1200; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6);">
+  <div style="position:relative; width:90%; max-width:800px; height:80%; margin:4% auto; background:#fff; border-radius:8px; overflow:hidden;">
+    <div style="height:100%;">
+      <div id="map" style="width:100%; height:calc(100% - 60px);"></div>
+      <div style="height:60px; display:flex; align-items:center; justify-content:flex-end; gap:8px; padding:8px;">
+        <button class="btn btn-secondary" type="button" onclick="closeMapModal()">Cancel</button>
+        <button class="btn btn-success" type="button" onclick="confirmLocation()">Confirm Location</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  #map { min-height:300px; }
+</style>
+
+<script>
+  const branches = <%= raw(@branches.to_json(only: [:id, :name, :latitude, :longitude])) %>;
+
+  let map, marker, geocoder;
+
+  window.initMap = function() {
+    const mapEl = document.getElementById('map');
+    if (!mapEl) return;
+    if (map) return;
+
+    const defaultLocation = { lat: 20.5937, lng: 78.9629 };
+    map = new google.maps.Map(mapEl, { center: defaultLocation, zoom: 6 });
+    geocoder = new google.maps.Geocoder();
+
+    branches.forEach(b => {
+      const pos = { lat: parseFloat(b.latitude), lng: parseFloat(b.longitude) };
+      new google.maps.Marker({ position: pos, map: map, title: b.name });
+    });
+
+    map.addListener('click', (e) => { placeMarker(e.latLng); });
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(pos => {
+        const userLoc = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+        map.setCenter(userLoc);
+        map.setZoom(13);
+        placeMarker(new google.maps.LatLng(userLoc));
+      });
+    }
+  };
+
+  function openMapModal() {
+    document.getElementById('mapModal').style.display = 'block';
+    if (typeof google === 'undefined' || !google.maps) {
+      alert('Google Maps not loaded yet.');
+      return;
+    }
+    if (!map) window.initMap();
+    else {
+      google.maps.event.trigger(map, 'resize');
+      if (marker) map.setCenter(marker.getPosition());
+    }
+  }
+
+  function closeMapModal() {
+    document.getElementById('mapModal').style.display = 'none';
+  }
+
+  function placeMarker(latLng) {
+    if (!map) return;
+    if (marker) {
+      marker.setPosition(latLng);
+    } else {
+      marker = new google.maps.Marker({ position: latLng, map: map, draggable: true });
+      marker.addListener('dragend', function() {
+        const p = marker.getPosition();
+        updateLatLngInputs(p.lat(), p.lng());
+        reverseGeocodeAndFill(p);
+      });
+    }
+    updateLatLngInputs(latLng.lat(), latLng.lng());
+    reverseGeocodeAndFill(latLng);
+  }
+
+  function updateLatLngInputs(lat, lng) {
+    document.getElementById('latitude_input').value = lat;
+    document.getElementById('longitude_input').value = lng;
+  }
+
+  function reverseGeocodeAndFill(latLng) {
+    if (!geocoder) geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ location: latLng }, function(results, status) {
+      if (status === 'OK' && results[0]) {
+        document.getElementById('location_input').value = results[0].formatted_address;
+      }
+    });
+  }
+
+  function findNearestBranch(lat, lng) {
+    let best = null, bestD = Infinity;
+    branches.forEach(b => {
+      const d = haversine(lat, lng, parseFloat(b.latitude), parseFloat(b.longitude));
+      if (d < bestD) { bestD = d; best = b; }
+    });
+    return best;
+  }
+
+  function haversine(lat1, lon1, lat2, lon2) {
+    const R = 6371, toRad = v => v * Math.PI / 180;
+    const dLat = toRad(lat2 - lat1), dLon = toRad(lon2 - lon1);
+    const a = Math.sin(dLat/2)**2 + Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLon/2)**2;
+    return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
+  }
+
+  function confirmLocation() {
+    if (!marker) {
+      alert('Please choose a point on the map first.');
+      return;
+    }
+    const pos = marker.getPosition();
+    const lat = pos.lat(), lng = pos.lng();
+    updateLatLngInputs(lat, lng);
+
+    const nearest = findNearestBranch(lat, lng);
+    if (nearest) {
+      document.getElementById('location_input').value = nearest.name;
+      document.getElementById('branch_id_input').value = nearest.id;
+    }
+
+    closeMapModal();
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const btn = document.getElementById('choose_location_btn');
+    if (btn) btn.addEventListener('click', openMapModal);
+  });
+</script>

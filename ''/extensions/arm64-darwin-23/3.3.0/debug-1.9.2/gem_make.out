@@ -1,0 +1,19 @@
+current directory: /Users/saigaikwad/Desktop/online_crime_reporting_3/online_crime_reporting 3/''/gems/debug-1.9.2/ext/debug
+/Users/saigaikwad/.rbenv/versions/3.3.4/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /Users/saigaikwad/Desktop/online_crime_reporting_3/online_crime_reporting 3/''/gems/debug-1.9.2/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20250928-2475-fhhmul sitelibdir\=./.gem.20250928-2475-fhhmul clean
+
+current directory: /Users/saigaikwad/Desktop/online_crime_reporting_3/online_crime_reporting 3/''/gems/debug-1.9.2/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20250928-2475-fhhmul sitelibdir\=./.gem.20250928-2475-fhhmul
+compiling debug.c
+compiling iseq_collector.c
+linking shared-object debug/debug.bundle
+
+current directory: /Users/saigaikwad/Desktop/online_crime_reporting_3/online_crime_reporting 3/''/gems/debug-1.9.2/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20250928-2475-fhhmul sitelibdir\=./.gem.20250928-2475-fhhmul install
+/usr/bin/install -c -m 0755 debug.bundle ./.gem.20250928-2475-fhhmul/debug
+
+current directory: /Users/saigaikwad/Desktop/online_crime_reporting_3/online_crime_reporting 3/''/gems/debug-1.9.2/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20250928-2475-fhhmul sitelibdir\=./.gem.20250928-2475-fhhmul clean

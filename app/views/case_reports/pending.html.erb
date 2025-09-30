@@ -1,0 +1,97 @@
+
+ <div>
+    <%= render "pages/allnav"%>
+  </div>
+
+<div  style="width: 1000px; margin-left:500px;">
+  <h1 class="solved-cases-title">Pending Cases</h1>
+  <ul class="solved-cases-list">
+    <% @pending_cases.each do |case_report| %>
+      <li class="solved-case-item">
+        <p>Name: <%= link_to case_report.title, case_report_path(case_report), class: "solved-case-link" %></p>
+        - <span class="solved-case-status"><%= case_report.status %></span>
+      </li>
+    <% end %>
+  </ul>
+</div>
+
+<style>
+  /* Container for the solved cases section */
+  .solved-cases-container {
+    background-image: url('<%= asset_path("62620.jpg") %>'); /* Add your background image */
+    background-size: cover; /* Cover the entire container */
+    background-position: center; /* Center the background image */
+    padding: 350px; /* Add some padding around the content */
+    border-radius: 8px; /* Optional: Round the corners */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Optional: Shadow for depth */
+  }
+
+  /* Style for the title */
+  .solved-cases-title {
+    font-size: 2rem; /* Larger font size for the title */
+    color: black; /* White color for contrast against background */
+    text-align: center; /* Center the title */
+    margin-bottom: 20px; /* Space below the title */
+    font-weight: bold; /* Bold title for emphasis */
+  }
+
+  /* Style for the list */
+  .solved-cases-list {
+    list-style-type: none; /* Remove default list styling */
+    padding: 0; /* Remove default padding */
+    max-width: 600px; /* Max width for better readability */
+    margin: auto; /* Center the list */
+    border: 1px solid #dee2e6; /* Border around the list */
+    border-radius: 8px; /* Rounded corners */
+    background-color: rgba(255, 255, 255, 0.9); /* Light background for the list with transparency */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+
+  /* Style for each list item */
+  .solved-case-item {
+    padding: 15px; /* Padding for list items */
+    border-bottom: 1px solid #dee2e6; /* Divider line between items */
+    transition: background-color 0.3s ease; /* Transition for background */
+  }
+
+  /* Remove the bottom border from the last item */
+  .solved-case-item:last-child {
+    border-bottom: none;
+  }
+
+  /* Hover effect for list items */
+  .solved-case-item:hover {
+    background-color: #e9ecef; /* Light gray on hover */
+  }
+
+  /* Style for links */
+  .solved-case-link {
+    text-decoration: none; /* Remove underline from links */
+    color: #007bff; /* Blue color for links */
+    font-weight: 500; /* Medium weight for links */
+    transition: color 0.3s ease; /* Transition for link color */
+  }
+
+  /* Change link color on hover */
+  .solved-case-link:hover {
+    color: #0056b3; /* Darker blue on hover */
+  }
+
+  /* Style for the status text */
+  .solved-case-status {
+    font-style: italic; /* Italic style for status */
+    color: #28a745; /* Green color for status */
+    margin-left: 10px; /* Space between title and status */
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .solved-cases-title {
+      font-size: 1.5rem; /* Smaller title on mobile */
+    }
+
+    .solved-cases-list {
+      max-width: 100%; /* Full width on small screens */
+    }
+  }
+</style>

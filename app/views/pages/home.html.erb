@@ -1,0 +1,37 @@
+<%= stylesheet_link_tag "home", media: "all" %>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="<%= root_path %>">Online Crime Reporting System</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<div class="hero-section">
+  <div class="hero-content">
+    <h1>Welcome to the Online Crime Reporting System</h1>
+    <p>Your solution for seamless crime reporting and staying connected with your nearest police station.</p>
+  </div>
+</div>
+
+<!-- Navigation Section -->
+<div class="navigation-box">
+  <div class="navigation-container">
+    <h2 class="mb-5">Choose Your Role</h2>
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <%= button_to "Users", pages_users_path, class: "btn btn-primary btn-lg", method: :get %>
+      </li>
+      <li class="nav-item">
+        <%= button_to "Admin", pages_admin_path, class: "btn btn-primary btn-lg", method: :get %>
+      </li>
+      <li class="nav-item">
+        <%= button_to "Police", pages_police_path, class: "btn btn-primary btn-lg", method: :get %>
+      </li>
+    </ul>
+  </div>
+</div>

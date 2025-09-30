@@ -1,0 +1,168 @@
+ <div>
+    <%= render "pages/allnav"%>
+  </div>
+<% if user_signed_in? %>
+  <!-- Show cases related to the user -->
+  <div class="container mt-4">
+    <h2 class="text-center">Your Cases</h2>
+    <ul class="list-group custom-list-group">
+      <% @case_reports.each do |case_report| %>
+        <li class="list-group-item custom-list-item">
+          <p><strong>Title:</strong> <%= case_report.title %></p>
+          <p><strong>Date and Time:</strong> <%= case_report.Timestmp.present? ? case_report.Timestmp.strftime("%B %d, %Y %I:%M %p") : "Not available" %></p>
+          <strong><%= link_to "View Details", case_report_path(case_report), class: "text-decoration-none" %></strong>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+<% elsif admin_signed_in? %>
+  <!-- Show cases related to the admin -->
+  <div class="container mt-4">
+    <h2 class="text-center">Crime Cases</h2>
+    <table class="table custom-table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th>Title</th>
+          <th>Date and Time</th>
+          <th>Branch</th>
+
+          <th>Actions</th>
+         
+        </tr>
+      </thead>
+      <tbody>
+        <% @case_reports.each do |case_report| %>
+          <tr>
+            <td><%= case_report.title %></td>
+            <td><%= case_report.Timestmp.present? ? case_report.Timestmp.strftime("%B %d, %Y %I:%M %p") : "Not available" %></td>
+            <td><%=case_report.branch.name%></td>
+            <td>
+              <%= link_to 'View Details', case_report_path(case_report), class: "btn btn-info btn-sm custom-btn" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+<% elsif police_signed_in? %>
+  <!-- Show cases related to the police officer's branch -->
+  <div class="container mt-4">
+    <h2 class="text-center">Cases in Your <%= current_police.branch.name %> Branch</h2>
+
+    <table class="table custom-table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th>User Name</th>
+          <th>Title</th>
+          <th>Date and Time</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @case_reports.each do |case_report| %>
+          <tr>
+            <td><%= case_report.user.email %></td>
+            <td><%= case_report.title %></td>
+            <td><%= case_report.Timestmp.present? ? case_report.Timestmp.strftime("%B %d, %Y %I:%M %p") : "Not available" %></td>
+            <td>
+              <%= link_to 'See Details', case_report_path(case_report), class: "btn btn-info btn-sm custom-btn" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+<% else %>
+  <div class="container mt-4 text-center">
+    <p>Please <%= link_to 'Sign in', new_user_session_path, class: "btn btn-primary custom-signin-btn" %> to view cases.</p>
+  </div>
+<% end %>
+
+<!-- Custom CSS -->
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-image: url('<%= asset_path("converted_image.jpeg") %>'); /* Use your desired background image */
+    background-size: cover; /* Ensure the image covers the entire viewport */
+    background-attachment: fixed; /* Fixed background for a parallax effect */
+    background-position: center; /* Center the background image */
+    color: #333; /* Default text color */
+  }
+
+  .container {
+    max-width: 800px; /* Limit width for better readability */
+    margin: auto; /* Center the container */
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background for readability */
+    padding: 20px; /* Add padding */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  }
+
+  h2 {
+    color: #333; /* Dark color for headings */
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+
+  .custom-list-group {
+    margin-top: 20px;
+    border: 1px solid #dee2e6; /* Light border around the list */
+    border-radius: 8px;
+  }
+
+  .custom-list-item {
+    padding: 15px; /* Add padding for comfort */
+    transition: background-color 0.3s ease;
+  }
+
+  .custom-list-item:hover {
+    background-color: #e9ecef; /* Light gray on hover */
+  }
+
+  .custom-table {
+    margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden; /* Round the corners */
+    border: 1px solid #dee2e6; /* Border for the table */
+  }
+
+  .thead-dark {
+    background-color: #343a40; /* Dark background for the header */
+    color: white; /* White text for header */
+  }
+
+  .custom-table th, .custom-table td {
+    vertical-align: middle; /* Center align table cell content */
+  }
+
+  .custom-btn {
+    padding: 8px 15px; /* Button padding */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s ease;
+  }
+
+  .custom-btn:hover {
+    background-color: #007bff; /* Darker blue on hover */
+    color: white; /* White text on hover */
+  }
+
+  .custom-signin-btn {
+    margin-top: 15px;
+    padding: 10px 20px;
+    border-radius: 5px; /* Rounded corners */
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .container {
+      padding: 15px;
+    }
+
+    h2 {
+      font-size: 1.5rem; /* Responsive font size */
+    }
+  }
+</style>

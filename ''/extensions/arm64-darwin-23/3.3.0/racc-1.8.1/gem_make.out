@@ -1,0 +1,18 @@
+current directory: /Users/saigaikwad/Desktop/online_crime_reporting_3/online_crime_reporting 3/''/gems/racc-1.8.1/ext/racc/cparse
+/Users/saigaikwad/.rbenv/versions/3.3.4/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /Users/saigaikwad/Desktop/online_crime_reporting_3/online_crime_reporting 3/''/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20250928-2475-6zr1ux sitelibdir\=./.gem.20250928-2475-6zr1ux clean
+
+current directory: /Users/saigaikwad/Desktop/online_crime_reporting_3/online_crime_reporting 3/''/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20250928-2475-6zr1ux sitelibdir\=./.gem.20250928-2475-6zr1ux
+compiling cparse.c
+linking shared-object racc/cparse.bundle
+
+current directory: /Users/saigaikwad/Desktop/online_crime_reporting_3/online_crime_reporting 3/''/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20250928-2475-6zr1ux sitelibdir\=./.gem.20250928-2475-6zr1ux install
+/usr/bin/install -c -m 0755 cparse.bundle ./.gem.20250928-2475-6zr1ux/racc
+
+current directory: /Users/saigaikwad/Desktop/online_crime_reporting_3/online_crime_reporting 3/''/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20250928-2475-6zr1ux sitelibdir\=./.gem.20250928-2475-6zr1ux clean

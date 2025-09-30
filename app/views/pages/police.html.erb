@@ -1,0 +1,143 @@
+<style>
+  /* Side Navbar Styling */
+  .side-navbar {
+    height: 100vh;
+    width: 250px;
+    position: fixed;
+    background: linear-gradient(180deg, #0066cc, #0099ff);
+    padding: 20px 10px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: width 0.3s ease;
+  }
+
+  .side-navbar .navbar-brand {
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    display: block;
+    text-align: center;
+  }
+
+  .side-navbar .nav-link {
+    color: #f9f9f9;
+    font-weight: 500;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+  }
+
+  .side-navbar .nav-link:hover {
+    background-color: #0056b3;
+    transform: translateX(5px);
+    color: #ffcc00;
+  }
+
+  .side-navbar .btn {
+    margin-top: 20px;
+    display: block;
+    width: 100%;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+
+  .side-navbar .btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Content Styling */
+  .content {
+    margin-left: 260px;
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+  }
+</style>
+
+<div class="side-navbar">
+  <a class="navbar-brand" href="#">Police Dashboard</a>
+  <nav class="navbar-nav">
+    <%= link_to 'Home', root_path, class: 'nav-link' %>
+    <%= link_to 'View Cases', case_reports_path, class: 'nav-link' %>
+    <%= link_to "Solved Cases", solved_case_reports_path, class: 'nav-link text-warning' %>
+    <%= link_to "Pending Cases", pending_case_reports_path, class: 'nav-link text-warning' %>
+    <%= link_to 'Edit Profile', edit_police_registration_path, class: 'nav-link' %>
+    <% if police_signed_in? %>
+      <%= link_to 'Sign Out', destroy_police_session_path, method: :delete, data: { turbo_method: :delete }, class: "btn btn-danger" %>
+    <% else %>
+      <%= link_to 'Sign In', new_police_session_path, class: "btn btn-primary" %>
+    <% end %>
+  </nav>
+</div>
+
+
+
+
+<div class="content">
+  <% if police_signed_in? %>
+    <div class="alert alert-info text-center">
+      Welcome, <strong><%= current_police.email %></strong>!
+    </div>
+
+     <section class="info-section mt-4">
+      <div class="row">
+        <!-- About the Dashboard -->
+        <div class="col-md-6">
+          <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+              <h4>About the Police Dashboard</h4>
+            </div>
+            <div class="card-body">
+              <p>
+                The Police Dashboard is a centralized system to manage and monitor case reports efficiently. 
+                It provides tools to:
+              </p>
+              <ul>
+                <li><strong>View Cases:</strong> Access case details categorized by status (Solved, Pending).</li>
+                <li><strong>Pending Cases:</strong> Track and update ongoing investigations.</li>
+                <li><strong>Solved Cases:</strong> Review closed cases for documentation.</li>
+                <li><strong>Edit Profile:</strong> Update your personal details securely.</li>
+              </ul>
+              <p>
+                Designed for operational efficiency and ease of use, the dashboard ensures better case tracking and resolution.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+      <section class="info-section mt-4">
+        <div class="row">
+        <!-- How the System Works -->
+        <div class="col-md-6">
+          <div class="card shadow">
+            <div class="card-header bg-success text-white">
+              <h4>How the System Works</h4>
+            </div>
+            <div class="card-body">
+              <ol>
+                <li><strong>Login:</strong> Secure login ensures data privacy for police officers.</li>
+                <li><strong>Case Management:</strong> Officers can update case statuses and add remarks.</li>
+                <li><strong>Branch Segmentation:</strong> Cases are filtered by branch for focused operations.</li>
+                
+              </ol>
+              <p class="text-success">
+                Streamline operations and improve case resolution efficiency with this dashboard.
+              </p>
+            </div>
+          </div>
+        </div>
+        </div>
+      </section>
+        
+    
+
+  <% else %>
+    <p class="text-center">
+      <%= link_to 'Sign Up', new_police_registration_path, class: "btn btn-success" %>
+      <%= link_to 'Sign In', new_police_session_path, class: "btn btn-primary" %>
+    </p>
+  <% end %>
+</div>

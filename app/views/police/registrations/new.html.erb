@@ -1,0 +1,45 @@
+<div class="d-flex justify-content-center align-items-center vh-100">
+  <div class="card mb-4" style="width: 600px;"> <!-- Set the width of the card -->
+    <div class="card-header text-center">
+      <h2>Sign Up</h2> <!-- Centered header -->
+    </div>
+    <div class="card-body">
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+        <%= render "police/shared/error_messages", resource: resource %>
+
+        <div class="mb-3">
+          <%= f.label :email, class: "form-label" %>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %> <!-- Bootstrap form control -->
+        
+
+        <div class="form-group">
+        <%= f.label :police_id, "Police ID" %>
+        <%= f.text_field :police_id, class: "form-control", placeholder: "Enter your Police ID", required: true %>
+        </div>
+        <div class="mb-3">
+          <%= f.label :password, class: "form-label" %>
+          <% if @minimum_password_length %>
+            <em>(<%= @minimum_password_length %> characters minimum)</em>
+          <% end %>
+          <%= f.password_field :password, autocomplete: "new-password", class: "form-control" %> <!-- Bootstrap form control -->
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :password_confirmation, class: "form-label" %>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %> <!-- Bootstrap form control -->
+        </div>
+
+        <div class="mb-3 text-center"> <!-- Center the label -->
+          <%= f.label :branch_id, class: "form-label fw-bold" %> <!-- Bold and centered label -->
+          <%= f.select :branch_id, options_from_collection_for_select(Branch.all, :id, :name), {}, class: "form-select" %> <!-- Bootstrap select control -->
+        </div>
+
+        <div class="text-center"> <!-- Centered submit button -->
+          <%= f.submit "Sign up", class: "btn btn-primary" %> <!-- Bootstrap button -->
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<%= render "police/shared/links" %> <!-- Render links (if needed) -->

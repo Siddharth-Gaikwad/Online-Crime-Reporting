@@ -1,0 +1,28 @@
+current directory: /Users/saigaikwad/Desktop/online_crime_reporting_3/online_crime_reporting 3/''/gems/rbs-3.9.5/ext/rbs_extension
+/Users/saigaikwad/.rbenv/versions/3.3.4/bin/ruby extconf.rb
+checking for whether -std=gnu99 is accepted as CFLAGS... yes
+creating Makefile
+
+current directory: /Users/saigaikwad/Desktop/online_crime_reporting_3/online_crime_reporting 3/''/gems/rbs-3.9.5/ext/rbs_extension
+make DESTDIR\= sitearchdir\=./.gem.20250928-99279-g2179e sitelibdir\=./.gem.20250928-99279-g2179e clean
+
+current directory: /Users/saigaikwad/Desktop/online_crime_reporting_3/online_crime_reporting 3/''/gems/rbs-3.9.5/ext/rbs_extension
+make DESTDIR\= sitearchdir\=./.gem.20250928-99279-g2179e sitelibdir\=./.gem.20250928-99279-g2179e
+compiling ./../../src/constants.c
+compiling ./../../src/ruby_objs.c
+compiling ./../../src/util/rbs_constant_pool.c
+compiling lexer.c
+compiling lexstate.c
+compiling location.c
+compiling main.c
+compiling parser.c
+compiling parserstate.c
+compiling unescape.c
+linking shared-object rbs_extension.bundle
+
+current directory: /Users/saigaikwad/Desktop/online_crime_reporting_3/online_crime_reporting 3/''/gems/rbs-3.9.5/ext/rbs_extension
+make DESTDIR\= sitearchdir\=./.gem.20250928-99279-g2179e sitelibdir\=./.gem.20250928-99279-g2179e install
+/usr/bin/install -c -m 0755 rbs_extension.bundle ./.gem.20250928-99279-g2179e
+
+current directory: /Users/saigaikwad/Desktop/online_crime_reporting_3/online_crime_reporting 3/''/gems/rbs-3.9.5/ext/rbs_extension
+make DESTDIR\= sitearchdir\=./.gem.20250928-99279-g2179e sitelibdir\=./.gem.20250928-99279-g2179e clean
